@@ -85,24 +85,27 @@ function Navbar() {
             <FiPackage size={16} /> Marketplace
           </Link>
 
-          <Link to="/marketplace/cart" className="nav-link cart-link" onClick={close}>
-            <FiShoppingCart size={18} />
-            <span>Cart</span>
-            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-          </Link>
-
-          {/* Show marketplace sub-links when user is logged in */}
-          {user && (
+          {/* Cart, Sell, Listings, Orders — only visible on marketplace pages */}
+          {isMarketplace && (
             <>
-              <Link to="/marketplace/sell" className={`nav-link ${isActive("/marketplace/sell")}`} onClick={close}>
-                <FiPlusCircle size={16} /> Sell
+              <Link to="/marketplace/cart" className="nav-link cart-link" onClick={close}>
+                <FiShoppingCart size={18} />
+                <span>Cart</span>
+                {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
               </Link>
-              <Link to="/marketplace/my-listings" className={`nav-link ${isActive("/marketplace/my-listings")}`} onClick={close}>
-                <FiList size={16} /> Listings
-              </Link>
-              <Link to="/marketplace/orders" className={`nav-link ${isActive("/marketplace/orders")}`} onClick={close}>
-                <FiCreditCard size={16} /> Orders
-              </Link>
+              {user && (
+                <>
+                  <Link to="/marketplace/sell" className={`nav-link ${isActive("/marketplace/sell")}`} onClick={close}>
+                    <FiPlusCircle size={16} /> Sell
+                  </Link>
+                  <Link to="/marketplace/my-listings" className={`nav-link ${isActive("/marketplace/my-listings")}`} onClick={close}>
+                    <FiList size={16} /> Listings
+                  </Link>
+                  <Link to="/marketplace/orders" className={`nav-link ${isActive("/marketplace/orders")}`} onClick={close}>
+                    <FiCreditCard size={16} /> Orders
+                  </Link>
+                </>
+              )}
             </>
           )}
 
