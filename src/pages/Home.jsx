@@ -1,13 +1,12 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Shield, Key, Users, CheckCircle, LayoutDashboard, Heart, BookOpen, Clock, BarChart, Star, ListPlus, Filter, ShoppingCart, History } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import "./Home.css";
 
 export default function Home() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
   const currentUser = user;
 
   // Animation Variants
@@ -33,57 +32,6 @@ export default function Home() {
 
   return (
     <div className="landing-page">
-      {/* Navigation */}
-      <motion.nav 
-        className="landing-nav"
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        <Link to="/" className="landing-logo">
-          EL EduLink
-        </Link>
-        <div className="landing-links">
-          <Link to="/">Home</Link>
-          <Link to="/profile">Profile</Link>
-          <Link to="/finding-groups">Finding Groups</Link>
-          <Link to="/marketplace" style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontWeight: "600" }}>
-            <ShoppingCart size={18} /> Marketplace
-          </Link>
-          {currentUser ? (
-            <div style={{ display: "flex", alignItems: "center", gap: "1.2rem", marginLeft: "0.5rem" }}>
-              <span style={{ color: "#fff", fontWeight: "600", fontSize: "1rem" }}>Welcome, {currentUser.name}</span>
-              {currentUser.role === "admin" && (
-                <Link to="/admin" className="btn-landing-secondary" style={{ padding: "0.4rem 0.8rem", fontSize: "0.85rem" }}>
-                  Admin
-                </Link>
-              )}
-              <Link to="/profile" style={{
-                width: "42px", height: "42px", borderRadius: "50%",
-                background: "linear-gradient(135deg, #0ea5e9, #38bdf8)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                color: "white", fontWeight: "bold", fontSize: "1.2rem", textDecoration: "none",
-                boxShadow: "0 4px 14px rgba(14, 165, 233, 0.4)"
-              }}>
-                {currentUser.name.charAt(0).toUpperCase()}
-              </Link>
-              <button
-                onClick={() => { logout(); navigate("/"); }}
-                className="btn-landing-secondary"
-                style={{ padding: "0.4rem 0.8rem", fontSize: "0.85rem", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(0,0,0,0.2)" }}
-              >
-                Logout
-              </button>
-            </div>
-          ) : (
-            <>
-              <Link to="/login" className="btn-landing-secondary" style={{ padding: "0.5rem 1.25rem" }}>Login</Link>
-              <Link to="/register" className="btn-landing-primary">Register</Link>
-            </>
-          )}
-        </div>
-      </motion.nav>
-
       {/* Hero Section */}
       <section className="landing-section section-hero">
         <div className="hero-content">

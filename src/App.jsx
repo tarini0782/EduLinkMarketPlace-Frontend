@@ -1,5 +1,8 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
+
+// Unified navbar (always visible)
+import Navbar from "./components/Navbar";
 
 // Dinuja's pages (main site)
 import Home from "./pages/Home";
@@ -28,9 +31,6 @@ import MarketplaceProfile from "./pages/marketplace/Profile";
 import CreditCardPayment from "./pages/marketplace/CreditCardPayment";
 import BankTransfer from "./pages/marketplace/BankTransfer";
 
-// Marketplace navbar wrapper
-import Navbar from "./components/Navbar";
-
 import "./App.css";
 
 function ProtectedRoute({ children }) {
@@ -47,45 +47,45 @@ function AdminRoute({ children }) {
   return children;
 }
 
-// Wrapper that adds marketplace navbar
-function MarketplaceLayout({ children }) {
-  return (
-    <>
-      <Navbar />
-      <main className="main-content">{children}</main>
-    </>
-  );
-}
-
 function App() {
+  const location = useLocation();
+
+  // Pages where the navbar should NOT appear (admin has its own header)
+  const hideNavbar = location.pathname === "/admin";
+
   return (
     <div className="app">
-      <Routes>
-        {/* ===== Main Site Routes (Dinuja's navbar is embedded in Home.jsx) ===== */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/profile" element={<DinujaProfile />} />
-        <Route path="/finding-groups" element={<FindingGroups />} />
-        <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+      {/* Single unified navbar across the entire site */}
+      {!hideNavbar && <Navbar />}
 
-        {/* ===== Marketplace Routes (Tarini's navbar via MarketplaceLayout) ===== */}
-        <Route path="/marketplace" element={<MarketplaceLayout><MarketplaceHome /></MarketplaceLayout>} />
-        <Route path="/marketplace/product/:id" element={<MarketplaceLayout><ProductDetail /></MarketplaceLayout>} />
-        <Route path="/marketplace/cart" element={<MarketplaceLayout><CartPage /></MarketplaceLayout>} />
-        <Route path="/marketplace/confirm-order" element={<MarketplaceLayout><ConfirmOrder /></MarketplaceLayout>} />
-        <Route path="/marketplace/order-success/:orderId" element={<MarketplaceLayout><OrderSuccess /></MarketplaceLayout>} />
-        <Route path="/marketplace/orders" element={<MarketplaceLayout><OrderHistory /></MarketplaceLayout>} />
-        <Route path="/marketplace/sell" element={<MarketplaceLayout><ProtectedRoute><CreateProduct /></ProtectedRoute></MarketplaceLayout>} />
-        <Route path="/marketplace/edit-product/:id" element={<MarketplaceLayout><ProtectedRoute><EditProduct /></ProtectedRoute></MarketplaceLayout>} />
-        <Route path="/marketplace/my-listings" element={<MarketplaceLayout><ProtectedRoute><MyListings /></ProtectedRoute></MarketplaceLayout>} />
-        <Route path="/marketplace/profile" element={<MarketplaceLayout><ProtectedRoute><MarketplaceProfile /></ProtectedRoute></MarketplaceLayout>} />
+      <main className={hideNavbar ? "" : "main-content"}>
+        <Routes>
+          {/* ===== Main Site Routes ===== */}
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/profile" element={<DinujaProfile />} />
+          <Route path="/finding-groups" element={<FindingGroups />} />
+          <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
 
-        {/* Payment routes */}
-        <Route path="/marketplace/payment/credit-card/:orderId" element={<MarketplaceLayout><CreditCardPayment /></MarketplaceLayout>} />
-        <Route path="/marketplace/payment/bank-transfer/:orderId" element={<MarketplaceLayout><BankTransfer /></MarketplaceLayout>} />
-      </Routes>
+          {/* ===== Marketplace Routes ===== */}
+          <Route path="/marketplace" element={<MarketplaceHome />} />
+          <Route path="/marketplace/product/:id" element={<ProductDetail />} />
+          <Route path="/marketplace/cart" element={<CartPage />} />
+          <Route path="/marketplace/confirm-order" element={<ConfirmOrder />} />
+          <Route path="/marketplace/order-success/:orderId" element={<OrderSuccess />} />
+          <Route path="/marketplace/orders" element={<OrderHistory />} />
+          <Route path="/marketplace/sell" element={<ProtectedRoute><CreateProduct /></ProtectedRoute>} />
+          <Route path="/marketplace/edit-product/:id" element={<ProtectedRoute><EditProduct /></ProtectedRoute>} />
+          <Route path="/marketplace/my-listings" element={<ProtectedRoute><MyListings /></ProtectedRoute>} />
+          <Route path="/marketplace/profile" element={<ProtectedRoute><MarketplaceProfile /></ProtectedRoute>} />
+
+          {/* ===== Payment Routes ===== */}
+          <Route path="/marketplace/payment/credit-card/:orderId" element={<CreditCardPayment />} />
+          <Route path="/marketplace/payment/bank-transfer/:orderId" element={<BankTransfer />} />
+        </Routes>
+      </main>
     </div>
   );
 }

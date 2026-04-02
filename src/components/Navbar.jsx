@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FiShoppingCart, FiMenu, FiX, FiPlusCircle, FiLogOut, FiUser, FiShield, FiHome } from "react-icons/fi";
+import {
+  FiShoppingCart, FiMenu, FiX, FiPlusCircle,
+  FiLogOut, FiUser, FiShield, FiHome, FiUsers,
+  FiList, FiPackage, FiCreditCard
+} from "react-icons/fi";
 import { useAuth } from "../context/AuthContext";
 import { getCart } from "../services/api";
 import "./Navbar.css";
@@ -11,6 +15,8 @@ function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+
+  const isMarketplace = location.pathname.startsWith("/marketplace");
 
   useEffect(() => {
     const fetchCartCount = async () => {
@@ -31,26 +37,22 @@ function Navbar() {
     navigate("/");
   };
 
+  const close = () => setMenuOpen(false);
+  const isActive = (path) => location.pathname === path ? "active" : "";
+
   return (
     <nav className="navbar">
       <div className="navbar-inner container">
-        {/* Back to EduLink main site */}
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Link to="/" className="nav-link back-to-main" title="Back to EduLink Home">
-            <FiHome size={18} />
-            <span>EduLink</span>
-          </Link>
-          <span style={{ color: "var(--gray-400)", fontSize: "1.2rem" }}>|</span>
-          <Link to="/marketplace" className="navbar-brand">
-            <div className="brand-logo">
-              <span className="brand-icon">S</span>
-            </div>
-            <div className="brand-text">
-              <span className="brand-name">Marketplace</span>
-              <span className="brand-tagline">Student Store</span>
-            </div>
-          </Link>
-        </div>
+        {/* Brand */}
+        <Link to="/" className="navbar-brand" onClick={close}>
+          <div className="brand-logo">
+            <span className="brand-icon">EL</span>
+          </div>
+          <div className="brand-text">
+            <span className="brand-name">EduLink</span>
+            <span className="brand-tagline">Student Platform</span>
+          </div>
+        </Link>
 
         <button
           className="menu-toggle"
@@ -61,81 +63,70 @@ function Navbar() {
         </button>
 
         <div className={`navbar-links ${menuOpen ? "open" : ""}`}>
-          <Link
-            to="/marketplace"
-            className={`nav-link ${location.pathname === "/marketplace" ? "active" : ""}`}
-            onClick={() => setMenuOpen(false)}
-          >
-            Browse
+          {/* ── Main Site Links ── */}
+          <Link to="/" className={`nav-link ${isActive("/")}`} onClick={close}>
+            <FiHome size={16} /> Home
+          </Link>
+          <Link to="/profile" className={`nav-link ${isActive("/profile")}`} onClick={close}>
+            <FiUser size={16} /> Profile
+          </Link>
+          <Link to="/finding-groups" className={`nav-link ${isActive("/finding-groups")}`} onClick={close}>
+            <FiUsers size={16} /> Groups
           </Link>
 
+          {/* ── Marketplace Section ── */}
+          <span className="nav-divider">|</span>
+
           <Link
-            to="/marketplace/cart"
-            className="nav-link cart-link"
-            onClick={() => setMenuOpen(false)}
+            to="/marketplace"
+            className={`nav-link marketplace-link ${isMarketplace ? "active" : ""}`}
+            onClick={close}
           >
-            <FiShoppingCart size={20} />
+            <FiPackage size={16} /> Marketplace
+          </Link>
+
+          <Link to="/marketplace/cart" className="nav-link cart-link" onClick={close}>
+            <FiShoppingCart size={18} />
             <span>Cart</span>
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </Link>
 
-          {user ? (
+          {/* Show marketplace sub-links when user is logged in */}
+          {user && (
             <>
-              <Link
-                to="/marketplace/sell"
-                className={`nav-link ${location.pathname === "/marketplace/sell" ? "active" : ""}`}
-                onClick={() => setMenuOpen(false)}
-              >
+              <Link to="/marketplace/sell" className={`nav-link ${isActive("/marketplace/sell")}`} onClick={close}>
                 <FiPlusCircle size={16} /> Sell
               </Link>
-              <Link
-                to="/marketplace/my-listings"
-                className={`nav-link ${location.pathname === "/marketplace/my-listings" ? "active" : ""}`}
-                onClick={() => setMenuOpen(false)}
-              >
-                My Listings
+              <Link to="/marketplace/my-listings" className={`nav-link ${isActive("/marketplace/my-listings")}`} onClick={close}>
+                <FiList size={16} /> Listings
               </Link>
-              <Link
-                to="/marketplace/orders"
-                className={`nav-link ${location.pathname === "/marketplace/orders" ? "active" : ""}`}
-                onClick={() => setMenuOpen(false)}
-              >
-                My Orders
+              <Link to="/marketplace/orders" className={`nav-link ${isActive("/marketplace/orders")}`} onClick={close}>
+                <FiCreditCard size={16} /> Orders
               </Link>
+            </>
+          )}
+
+          {/* ── Auth / Admin ── */}
+          <span className="nav-divider">|</span>
+
+          {user ? (
+            <>
               {user.role === "admin" && (
-                <Link
-                  to="/admin"
-                  className={`nav-link admin-link ${location.pathname === "/admin" ? "active" : ""}`}
-                  onClick={() => setMenuOpen(false)}
-                >
+                <Link to="/admin" className={`nav-link admin-link ${isActive("/admin")}`} onClick={close}>
                   <FiShield size={16} /> Admin
                 </Link>
               )}
-              <Link
-                to="/marketplace/profile"
-                className={`nav-link ${location.pathname === "/marketplace/profile" ? "active" : ""}`}
-                onClick={() => setMenuOpen(false)}
-              >
-                <FiUser size={16} /> Profile
-              </Link>
+              <span className="nav-user-name">Hi, {user.name}</span>
               <button className="nav-link logout-btn" onClick={handleLogout}>
                 <FiLogOut size={16} /> Logout
               </button>
             </>
           ) : (
             <>
-              <Link
-                to="/login"
-                className={`nav-link ${location.pathname === "/login" ? "active" : ""}`}
-                onClick={() => setMenuOpen(false)}
-              >
+              <Link to="/login" className={`nav-link ${isActive("/login")}`} onClick={close}>
                 Sign In
               </Link>
-              <Link
-                to="/register"
-                className="btn btn-gold btn-sm"
-                onClick={() => setMenuOpen(false)}
-              >
+              <Link to="/register" className="btn btn-gold btn-sm" onClick={close}>
                 Register
               </Link>
             </>

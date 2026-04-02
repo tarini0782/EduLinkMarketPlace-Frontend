@@ -1,7 +1,8 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Users, Filter, PlusCircle, Search, Copy, CheckCircle } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 import "./ModernPages.css";
 
 const memberPostsSeed = [
@@ -102,14 +103,7 @@ const newBannerDefault = {
 };
 
 export default function FindingGroups() {
-  const [currentUser, setCurrentUser] = useState(null);
-
-  useEffect(() => {
-    const userStr = localStorage.getItem('currentUser');
-    if (userStr) {
-      try { setCurrentUser(JSON.parse(userStr)); } catch (e) {}
-    }
-  }, []);
+  const { user: currentUser } = useAuth();
 
   const [activeTab, setActiveTab] = useState("member");
   const [filters, setFilters] = useState(filterDefaults);
