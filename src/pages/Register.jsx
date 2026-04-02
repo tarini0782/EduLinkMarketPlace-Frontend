@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { registerUser } from "../services/api";
 import toast from "react-hot-toast";
+import "./styles.css";
 
 const initialForm = {
   name: "",
