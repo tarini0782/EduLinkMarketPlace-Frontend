@@ -5,9 +5,10 @@
 
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FiPackage, FiShoppingBag, FiCreditCard, FiX } from "react-icons/fi";
+import { FiPackage, FiShoppingBag, FiCreditCard, FiX, FiXCircle } from "react-icons/fi";
 import { BsBank2 } from "react-icons/bs";
-import { getOrders } from "../../services/api";
+import { getOrders, cancelOrder } from "../../services/api";
+import toast from "react-hot-toast";
 import "./OrderHistory.css";
 
 function OrderHistory() {
@@ -48,6 +49,21 @@ function OrderHistory() {
   // Open the payment method modal for a specific order
   const handlePayNow = (orderId) => {
     setPaymentModal(orderId);
+  };
+
+  // Cancel an unpaid order
+  const handleCancelOrder = async (orderId) => {
+    try {
+      await cancelOrder(orderId);
+      toast.success("Order cancelled");
+      setOrders((prev) =>
+        prev.map((o) =>
+          o._id === orderId ? { ...o, status: "Cancelled", paymentStatus: "failed" } : o
+        )
+      );
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to cancel order");
+    }
   };
 
   // Navigate to the chosen payment page
@@ -140,14 +156,23 @@ function OrderHistory() {
                   <span className="order-card-total">
                     Total: Rs. {order.totalAmount.toLocaleString()}
                   </span>
-                  {/* Only show Pay Now if the order hasn't been paid yet */}
-                  {order.paymentStatus !== "paid" && (
-                    <button
-                      className="btn-pay-now"
-                      onClick={() => handlePayNow(order._id)}
-                    >
-                      Pay Now
-                    </button>
+                  {/* Only show Pay Now and Cancel if the order hasn't been paid and isn't cancelled */}
+                  {order.paymentStatus !== "paid" && order.status !== "Cancelled" && (
+                    <>
+                      <button
+                        className="btn-pay-now"
+                        onClick={() => handlePayNow(order._id)}
+                      >
+                        Pay Now
+                      </button>
+                      <button
+                        className="btn-cancel-order"
+                        onClick={() => handleCancelOrder(order._id)}
+                      >
+                        <FiXCircle size={14} />
+                        Cancel
+                      </button>
+                    </>
                   )}
                 </div>
               </div>

@@ -57,6 +57,8 @@ export const checkout = () =>
 export const getOrders = () => API.get(`/orders/${getUserId()}`);
 export const getOrderById = (orderId) => API.get(`/orders/detail/${orderId}`);
 
+export const cancelOrder = (orderId) => API.put(`/orders/${orderId}/cancel`);
+
 // ==================== PAYMENT APIs ====================
 export const processPayment = (orderId, paymentData) => {
   const isFormData = paymentData instanceof FormData;

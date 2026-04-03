@@ -135,6 +135,49 @@
   color: var(--sliit-blue);
 }
 
+.order-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-pay-now {
+  background-color: var(--sliit-gold);
+  color: var(--sliit-blue);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-pay-now:hover {
+  background-color: var(--sliit-gold-light);
+  transform: translateY(-1px);
+}
+
+.btn-cancel-order {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  color: var(--sliit-red);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--sliit-red);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel-order:hover {
+  background-color: var(--sliit-red);
+  color: var(--sliit-white);
+}
+
 @media (max-width: 768px) {
   .order-card-header {
     flex-wrap: wrap;
