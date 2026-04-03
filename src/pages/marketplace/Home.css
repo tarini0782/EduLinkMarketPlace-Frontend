@@ -117,8 +117,8 @@
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
 }
 
 /* ========== Loading / Error / Empty States ========== */
@@ -171,7 +171,7 @@
   }
 
   .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
   }
 }
