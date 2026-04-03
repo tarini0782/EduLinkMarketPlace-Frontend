@@ -70,7 +70,7 @@
 }
 
 .nav-link {
-  color: #ffffff;
+  color: #ffffff !important;
   padding: 6px 12px;
   border-radius: var(--radius);
   font-weight: 500;
@@ -86,13 +86,13 @@
 }
 
 .nav-link:hover {
-  color: var(--sliit-white);
-  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--sliit-white) !important;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .nav-link.active {
-  color: var(--sliit-gold);
-  background-color: rgba(242, 169, 0, 0.1);
+  color: var(--sliit-gold) !important;
+  background-color: rgba(242, 169, 0, 0.15);
 }
 
 /* ---- Divider ---- */
@@ -110,7 +110,7 @@
 
 /* ---- User name ---- */
 .nav-user-name {
-  color: #ffffff;
+  color: #ffffff !important;
   font-size: 13px;
   font-weight: 500;
   padding: 0 4px;

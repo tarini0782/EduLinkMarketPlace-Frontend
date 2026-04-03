@@ -220,7 +220,7 @@ This creates an optimized production build in the `dist/` folder.
 | `/marketplace/cart` | `CartPage` | No | Shopping cart (works for both logged-in and guest users) |
 | `/marketplace/confirm-order` | `ConfirmOrder` | No | Review order details before selecting payment method |
 | `/marketplace/order-success/:orderId` | `OrderSuccess` | No | Order confirmation page shown after successful payment |
-| `/marketplace/orders` | `OrderHistory` | No | List of the user's past orders |
+| `/marketplace/orders` | `OrderHistory` | No | List of past orders with Pay Now and Cancel buttons |
 | `/marketplace/sell` | `CreateProduct` | Yes | Form to list a new product for sale |
 | `/marketplace/edit-product/:id` | `EditProduct` | Yes | Edit an existing product listing |
 | `/marketplace/my-listings` | `MyListings` | Yes | View and manage own product listings |
@@ -284,7 +284,7 @@ All backend communication goes through a single Axios instance defined in `src/s
 | Auth | `loginUser`, `registerUser` | User authentication |
 | Products | `getProducts`, `getProductById`, `createProduct`, `updateProduct`, `deleteProduct` | Product CRUD for marketplace |
 | Cart | `getCart`, `addToCart`, `updateCartItem`, `removeFromCart` | Shopping cart operations |
-| Orders | `createOrder`, `getOrder`, `getOrderHistory` | Order management |
+| Orders | `buyNow`, `checkout`, `getOrders`, `getOrderById`, `cancelOrder` | Order management and cancellation |
 | Payment | `processPayment`, `uploadBankReceipt` | Payment processing |
 | Admin | `getUsers`, `updateUser`, `deleteUser`, `getAdminProducts`, `updateProductStatus` | Admin management |
 | Analytics | `getDashboardStats`, `getMarketplaceAnalytics`, `getQuizAnalytics`, `getStudentProgress` | Admin dashboard data |
@@ -459,7 +459,7 @@ All six tab components are housed in the `src/pages/AdminDashboard/` subfolder a
 - **Product Detail** (`ProductDetail.jsx`): Full product view with image, description, and add-to-cart.
 - **Shopping Cart** (`CartPage.jsx`): Cart management with quantity updates and item removal; supports guest users.
 - **Checkout Flow** (`ConfirmOrder.jsx`, `OrderSuccess.jsx`): Order review, payment method selection, and success confirmation.
-- **Order History** (`OrderHistory.jsx`): View past orders with status tracking.
+- **Order History** (`OrderHistory.jsx`): View past orders with status tracking, Pay Now button for unpaid orders, and Cancel button to cancel unpaid orders.
 - **Seller Features** (`CreateProduct.jsx`, `EditProduct.jsx`, `MyListings.jsx`): Full CRUD for product listings.
 - **JWT Auth Integration**: Implemented token-based authentication flow on the frontend.
 - **Admin Management** (`ManageUsers.jsx`, `ManageProducts.jsx`): User and product CRUD for administrators.
