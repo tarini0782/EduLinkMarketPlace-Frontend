@@ -79,7 +79,7 @@ function Home() {
   };
 
   return (
-    <div className="home">
+    <div className="marketplace-home">
       {/* ---- Hero Section: Title + Search Bar ---- */}
       <section className="hero-section">
         <div className="container">

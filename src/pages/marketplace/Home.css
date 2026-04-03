@@ -1,3 +1,9 @@
+/* ========== Marketplace Home ========== */
+.marketplace-home {
+  min-height: 100vh;
+  background-color: var(--sliit-gray-50);
+}
+
 /* ========== Hero Section ========== */
 .hero-section {
   background: linear-gradient(135deg, var(--sliit-blue) 0%, var(--sliit-blue-light) 100%);
