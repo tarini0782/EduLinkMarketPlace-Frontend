@@ -18,7 +18,8 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
-import { FiArrowLeft, FiCheckCircle } from "react-icons/fi";
+import { FiArrowLeft, FiCheckCircle, FiCreditCard } from "react-icons/fi";
+import { BsBank2 } from "react-icons/bs";
 import {
   getProductById,
   getCart,
@@ -40,6 +41,7 @@ function ConfirmOrder() {
   const [totalAmount, setTotalAmount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [placing, setPlacing] = useState(false);
+  const [orderId, setOrderId] = useState(null); // set after order is placed
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,16 +79,16 @@ function ConfirmOrder() {
   const handlePlaceOrder = async () => {
     setPlacing(true);
     try {
-      let orderId;
+      let id;
       if (type === "buy-now") {
         const res = await buyNow(productId, quantity);
-        orderId = res.data.order._id;
+        id = res.data.order._id;
       } else {
         const res = await checkout();
-        orderId = res.data.order._id;
+        id = res.data.order._id;
       }
-      toast.success("Order placed successfully!");
-      navigate(`/marketplace/order-success/${orderId}`);
+      toast.success("Order placed! Choose your payment method.");
+      setOrderId(id);
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to place order");
     } finally {
@@ -103,6 +105,54 @@ function ConfirmOrder() {
     );
   }
 
+  // After order is placed, show payment method selection
+  if (orderId) {
+    return (
+      <div className="confirm-order container">
+        <div className="confirm-card">
+          <div className="payment-select-icon">
+            <FiCheckCircle size={48} color="#28a745" />
+          </div>
+          <h1>Order Placed!</h1>
+          <p className="confirm-subtitle">
+            Choose how you'd like to pay for your order.
+          </p>
+
+          <div className="confirm-total-row" style={{ marginBottom: "24px" }}>
+            <span>Total</span>
+            <span className="confirm-total">
+              Rs. {totalAmount.toLocaleString()}
+            </span>
+          </div>
+
+          <div className="payment-methods">
+            <button
+              className="payment-method-btn"
+              onClick={() => navigate(`/marketplace/payment/credit-card/${orderId}`)}
+            >
+              <FiCreditCard size={28} />
+              <div>
+                <strong>Credit / Debit Card</strong>
+                <span>Pay securely with your card</span>
+              </div>
+            </button>
+
+            <button
+              className="payment-method-btn"
+              onClick={() => navigate(`/marketplace/payment/bank-transfer/${orderId}`)}
+            >
+              <BsBank2 size={28} />
+              <div>
+                <strong>Bank Transfer</strong>
+                <span>Transfer directly to our bank account</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="confirm-order container">
       <button className="back-btn" onClick={() => navigate(-1)}>
@@ -113,7 +163,7 @@ function ConfirmOrder() {
       <div className="confirm-card">
         <h1>Confirm Your Order</h1>
         <p className="confirm-subtitle">
-          Please review your order before placing it.
+          Review your order, then place it to proceed to payment.
         </p>
 
         {/* Order Items */}
@@ -139,11 +189,6 @@ function ConfirmOrder() {
           </span>
         </div>
 
-        {/* Payment notice */}
-        <p className="confirm-payment-notice">
-          Payment will be collected after order placement.
-        </p>
-
         {/* Actions */}
         <div className="confirm-actions">
           <button
@@ -152,7 +197,7 @@ function ConfirmOrder() {
             disabled={placing}
           >
             <FiCheckCircle size={18} />
-            {placing ? "Placing Order..." : "Place Order"}
+            {placing ? "Placing Order..." : "Place Order & Pay"}
           </button>
           <Link to="/marketplace" className="btn btn-outline btn-lg">
             Cancel

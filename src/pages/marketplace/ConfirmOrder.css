@@ -103,6 +103,56 @@
   flex: 1;
 }
 
+/* ---- Payment Method Selection ---- */
+.payment-select-icon {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-method-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 20px;
+  border: 2px solid var(--sliit-gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--sliit-white);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  color: var(--sliit-blue);
+}
+
+.payment-method-btn:hover {
+  border-color: var(--sliit-gold);
+  background: #fffbf0;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.payment-method-btn div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.payment-method-btn strong {
+  font-size: 15px;
+  color: var(--sliit-gray-900);
+}
+
+.payment-method-btn span {
+  font-size: 13px;
+  color: var(--sliit-gray-500);
+}
+
 @media (max-width: 768px) {
   .confirm-card {
     padding: 24px 20px;
