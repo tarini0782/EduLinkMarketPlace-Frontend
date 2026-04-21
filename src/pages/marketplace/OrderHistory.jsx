@@ -121,7 +121,7 @@ function OrderHistory() {
                 <span className="order-type-badge">
                   {order.orderType === "buy-now" ? "Buy Now" : "Cart Checkout"}
                 </span>
-                <span className="order-status-badge">{order.status}</span>
+                <span className={`order-status-badge status-${order.status.toLowerCase().replace(" ", "-")}`}>{order.status}</span>
                 <span className={`payment-status-badge ${order.paymentStatus || "pending"}`}>
                   {order.paymentStatus === "paid" ? "Paid" : "Unpaid"}
                 </span>

@@ -78,6 +78,21 @@
   color: var(--sliit-blue);
 }
 
+.order-status-badge.status-confirmed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.order-status-badge.status-delivered {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.order-status-badge.status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
 .payment-status-badge {
   font-size: 11px;
   font-weight: 600;
