@@ -145,6 +145,13 @@ function ProductDetail() {
             <span className="detail-condition">{product.condition}</span>
           </div>
 
+          {/* Running total when quantity > 1 */}
+          {quantity > 1 && (
+            <p className="detail-total">
+              Total: <strong>Rs. {(product.price * quantity).toLocaleString()}</strong>
+            </p>
+          )}
+
           {/* Stock availability indicator */}
           <div className="detail-stock">
             {product.stock > 0 ? (

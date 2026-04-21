@@ -89,6 +89,17 @@
   color: var(--sliit-blue);
 }
 
+.detail-total {
+  font-size: 14px;
+  color: var(--sliit-gray-700);
+  margin-bottom: 12px;
+}
+
+.detail-total strong {
+  color: var(--sliit-blue);
+  font-size: 16px;
+}
+
 .detail-condition {
   background-color: var(--sliit-gold);
   color: var(--sliit-blue);
