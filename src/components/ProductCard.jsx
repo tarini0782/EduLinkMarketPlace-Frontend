@@ -90,6 +90,13 @@ function ProductCard({ product }) {
         <h3 className="product-name">{product.name}</h3>
         <p className="product-seller">by {product.sellerName}</p>
         <p className="product-price">Rs. {product.price.toLocaleString()}</p>
+        <p className={`product-stock ${product.stock <= 3 ? "stock-low" : ""}`}>
+          {product.stock === 0
+            ? "Out of stock"
+            : product.stock <= 3
+            ? `Only ${product.stock} left!`
+            : `${product.stock} in stock`}
+        </p>
 
         {/* Action Buttons */}
         <div className="product-actions">
